@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for jm850</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for jm850</h1>
+
+<p>Your personal task is to develop a system of TV channels and shows running on these channels.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2103.hw1.domain.Show</code>. With the following private fields:
+<ol>
+  <li><code>String title</code></li>
+  <li><code>String producer</code></li>
+  <li><code>String category</code></li>
+  <li><code>int episodes</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2103.hw1.domain.Channel</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String name</code></li>
+  <li><code>String topic</code></li>
+  <li><code>List&lt;Show&gt; shows</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Channel&gt; channels</code> in class <code>co2103.hw1.Hw1Application</code>. Initialize the list inside class <code>co2103.hw1.Hw1Application</code> to contain one channel with two shows. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.ChannelController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/channels"</code> should show view <code>channels/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all channels from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>channels</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the name and topic of each channel followed by a link to URL <code>"/shows?channel={id of channel}"</code>, e.g., <code>"/shows?channel=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newChannel"</code> should show view <code>channels/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="channel"</code> and <code>action="/addChannel"</code> and inputs for all fields of class <code>Channel</code> except for <code>shows</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addChannel"</code> should add a new channel to the list of all channels in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/channels</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2103.hw1.controller.ShowController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/shows"</code> should show view <code>shows/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>channel</code> determine the corresponding channel from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all shows of that channel to the model as attribute <code>shows</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the title, producer, and category of each show. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newShow?channel={id of channel whose shows are listed}"</code>, e.g., <code>"/newShow?channel=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newShow"</code> should show view <code>shows/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="show"</code> and <code>action="/addShow"</code> and inputs for all fields of class <code>Show</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>channel</code> with the ID of the current channel. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addShow"</code> should add a new show to the list of shows of the channel identified by request parameter <code>channel</code> and then redirect to <code>/channels</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Channel</code> and make it available in controller <code>ChannelController</code>. [4 marks]</p>
+<p>When adding a new channel validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.channels</code>. [3 marks]</li>
+    <li>The value of field <code>name</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>topic</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Show</code> and make it available in controller <code>ShowController</code>. [4 marks]</p>
+<p>When adding a new show validate that
+  <ol>
+    <li>The value of field <code>title</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>producer</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>category</code> is either <code>"Comedy"</code>, <code>"Documentary"</code>, or <code>"Drama"</code>. [3 marks]</li>
+    <li>The value of field <code>episodes</code> is between (including) 1 and 24. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
